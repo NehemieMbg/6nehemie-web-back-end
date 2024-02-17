@@ -1,36 +1,23 @@
 package org.nehemie.jpa.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
-public class Author {
-    
-    @Id
-    @GeneratedValue
-    /*    
-            (
-            strategy = GenerationType.TABLE,
-            generator = "author_id_gen"
-    )
-    @SequenceGenerator(
-            name = "author_sequence",
-            sequenceName = "author_sequence",
-            allocationSize = 1
-    )
-    @TableGenerator(
-            name = "author_id_gen",
-            table = "id_generator",
-            pkColumnName = "id_name",
-            valueColumnName = "id_value",Ê
-            allocationSize = 1
-    )*/
-    private Integer id;
+public class Author extends BaseEntity {
     
     @Column(
             name = "f_name",
@@ -48,14 +35,17 @@ public class Author {
     
     private int age;
     
-    @Column(
-            updatable = false,
-            nullable = false
-    )
-    private LocalDateTime createdAt;
+    @ManyToMany(mappedBy = "authors")
+    private List<Course> courses;
     
-    @Column(
-            insertable = false // when first created
-    )
-    private LocalDateTime lastModified;
+//    @Column(
+//            updatable = false,
+//            nullable = false
+//    )  
+//    private LocalDateTime createdAt;
+//    
+//    @Column(
+//            insertable = false // when first created
+//    )
+//    private LocalDateTime lastModified;
 }
